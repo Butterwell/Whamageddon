@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<head>
+    <title>Lose Whamageddon</title>
+</head>
+<html>
+  <body>
+    <style>
+        #video-container {
+          position: relative;
+          width: 640px;
+          height: 390px;
+        }
+        
+        #video-overlay {
+          width: 640px; 
+          height: 390px;
+          position: absolute;
+          background-color: black;
+        }
+
+        .force-wrap {
+            width: 100%;
+            height: 1px;
+        }
+
+        .rounded {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .fill-overlay {
+            height: 370px;
+        }
+
+        .button-like {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            width: 620px;
+            font-family: sans-serif;
+            color: white;
+            background-color: black;
+            padding: 10px;
+        }
+        
+        body {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+        }
+    </style>
+        
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="video-container">
+        <div id="video-overlay">
+            <div class="button-like fill-overlay">
+                Lose Whamageddon Now
+            </div>
+        </div>
+        <div id="player"></div>
+    </div>
+    <div class="force-wrap"></div>
+    <div id="to-reveal" hidden>
+        <div class="button-like rounded">
+            Okay, Joker: Play Last Christmas
+        </div>
+    </div>
+
+    <script>
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'dQw4w9WgXcQ', // Never Going to Give You Up
+          playerVars: {
+            'playsinline': 1
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      var done = false;
+      function onPlayerStateChange(event) {
+        // if (event.data == YT.PlayerState.PLAYING && !done) {
+        //   setTimeout(stopVideo, 10000);
+        //   done = true;
+        // }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+
+      let overlay = document.getElementById("video-overlay");
+      let toReveal = document.getElementById("to-reveal");
+      overlay.addEventListener('click', event => {
+          player.playVideo();
+          overlay.hidden = true;
+          toReveal.hidden = false;
+      });
+      toReveal.addEventListener('click', event => {
+          player.stopVideo();
+          player.loadVideoById('E8gmARGvPlI') // Last Christmas
+          player.playVideo()
+          toReveal.hidden = true;
+      })
+    </script>
+  </body>
+</html>
